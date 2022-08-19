@@ -41,6 +41,8 @@ spec:
         image: docker.io/grafana/loki:latest
         args:
         - --config.file=/mnt/config/loki-local-config.yaml
+        securityContext:
+          runAsUser: 1000
         ports:
           - containerPort: 3100
             hostPort: 3100
