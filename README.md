@@ -12,6 +12,14 @@ Clone this repo locally on your RHEL/CentOS/Rocky Linux/Alma Linux machine.
 
 ```$ git clone https://github.com/CastawayEGR/grafana-stack-podman```
 
+Change to the cloned repo directory.
+
+```$ cd grafana-stack-podman```
+
+Chmod the loki data directly for proper access when running as a rootless container.
+
+```$ chmod 777 ./loki/data```
+
 Now we want to spin this up using podman.
 
 ```$ podman play kube grafana-stack.yaml```
