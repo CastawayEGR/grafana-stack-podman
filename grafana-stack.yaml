@@ -21,6 +21,11 @@ spec:
           - containerPort: 3000
             hostPort: 3000
             protocol: TCP
+        volumeMounts:
+          - mountPath: /etc/grafana/grafana.ini:Z
+            name: grafana-config
+          - mountPath: /var/lib/grafana:Z
+            name: grafana
       - name: mimir
         image: docker.io/grafana/mimir:latest
         args:
@@ -84,6 +89,14 @@ spec:
           - mountPath: /mnt/config/tempo-local-config.yaml:Z
             name: tempo-config
       volumes:
+      - hostPath:
+          path: ./grafana/data
+          type: Directory
+        name: grafana
+      - hostPath:
+          path: ./grafana/grafana.ini
+          type: File
+        name: grafana-config
       - hostPath:
           path: ./mimir/data
           type: Directory
