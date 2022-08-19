@@ -1,8 +1,8 @@
 grafana-stack-podman
 =========
 [![License: MIT](https://img.shields.io/badge/License-MIT-brightgreen.svg)](https://opensource.org/licenses/MIT)
-[![GitHub repo size in bytes](https://img.shields.io/github/repo-size/CastawayEGR/ocpnv.svg?logoColor=brightgreen)](https://github.com/CastawayEGR/ocpnv)
-[![GitHub last commit](https://img.shields.io/github/last-commit/CastawayEGR/ocpnv.svg?logoColor=brightgreen)](https://github.com/CastawayEGR/ocpnv)
+[![GitHub repo size in bytes](https://img.shields.io/github/repo-size/CastawayEGR/grafana-stack-podman.svg?logoColor=brightgreen)](https://github.com/CastawayEGR/grafana-stack-podman)
+[![GitHub last commit](https://img.shields.io/github/last-commit/CastawayEGR/grafana-stack-podman.svg?logoColor=brightgreen)](https://github.com/CastawayEGR/grafana-stack-podman)
 
 Grafana Stack for Metrics, Logs, & Traces using Podman
 
