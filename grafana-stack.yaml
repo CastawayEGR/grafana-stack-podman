@@ -1,0 +1,108 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: grafana-stack
+  labels:
+    app: grafana-stack
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: grafana-stack
+  template:
+    metadata:
+      labels:
+        app: grafana-stack
+    spec:
+      containers:
+      - name: grafana
+        image: docker.io/grafana/grafana:latest
+        ports:
+          - containerPort: 3000
+            hostPort: 3000
+            protocol: TCP
+      - name: mimir
+        image: docker.io/grafana/mimir:latest
+        args:
+        - --config.file=/mnt/config/mimir-local-config.yaml
+        ports:
+          - containerPort: 9009
+            hostPort: 9009
+            protocol: TCP
+          - containerPort: 9095
+            hostPort: 9095
+            protocol: TCP
+        volumeMounts:
+          - mountPath: /tmp/mimir:Z
+            name: mimir
+          - mountPath: /mnt/config/mimir-local-config.yaml:Z
+            name: mimir-config
+      - name: loki
+        image: docker.io/grafana/loki:latest
+        args:
+        - --config.file=/mnt/config/loki-local-config.yaml
+        ports:
+          - containerPort: 3100
+            hostPort: 3100
+            protocol: TCP
+          - containerPort: 9096
+            hostPort: 9096
+            protocol: TCP
+        volumeMounts:
+          - mountPath: /tmp/loki:Z
+            name: loki
+          - mountPath: /mnt/config/loki-local-config.yaml:Z
+            name: loki-config
+      - name: tempo
+        image: docker.io/grafana/tempo:latest
+        args:
+        - --config.file=/mnt/config/tempo-local-config.yaml
+        ports:
+          - containerPort: 3200
+            hostPort: 3200
+            protocol: TCP
+          - containerPort: 4317
+            hostPort: 4317
+            protocol: TCP
+          - containerPort: 4318
+            hostPort: 4318
+            protocol: TCP
+          - containerPort: 9097
+            hostPort: 9097
+            protocol: TCP
+          - containerPort: 9411
+            hostPort: 9411
+            protocol: TCP
+          - containerPort: 14268
+            hostPort: 14268
+            protocol: TCP
+        volumeMounts:
+          - mountPath: /tmp/tempo:Z
+            name: tempo
+          - mountPath: /mnt/config/tempo-local-config.yaml:Z
+            name: tempo-config
+      volumes:
+      - hostPath:
+          path: ./mimir/data
+          type: Directory
+        name: mimir
+      - hostPath:
+          path: ./mimir/mimir-local-config.yaml
+          type: File
+        name: mimir-config
+      - hostPath:
+          path: ./loki/data
+          type: Directory
+        name: loki
+      - hostPath:
+          path: ./loki/loki-local-config.yaml
+          type: File
+        name: loki-config
+      - hostPath:
+          path: ./tempo/data
+          type: Directory
+        name: tempo
+      - hostPath:
+          path: ./tempo/tempo-local-config.yaml
+          type: File
+        name: tempo-config
